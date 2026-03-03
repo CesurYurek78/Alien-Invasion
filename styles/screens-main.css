@@ -1,0 +1,177 @@
+/* ========== MENÜ ========== */
+        .menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            border: 2px solid #0f0;
+        }
+        
+        .menu-title {
+            font-size: 3.5rem;
+            color: #0f0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+            letter-spacing: 5px;
+            font-weight: bold;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 15px #0f0, 0 0 30px #0f0; }
+            50% { text-shadow: 0 0 25px #0f0, 0 0 45px #0f0, 0 0 60px #0f0; }
+        }
+        
+        .menu-subtitle {
+            font-size: 1.2rem;
+            color: #0f0;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+            font-style: italic;
+            font-weight: bold;
+        }
+        
+        .menu-options {
+            list-style: none;
+            width: 300px;
+            margin-bottom: 80px;
+        }
+        
+        .menu-option {
+            font-size: 2rem;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .menu-option.selected {
+            border-color: #0f0;
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .menu-option.selected::before {
+            content: '▶ ';
+            color: #0f0;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* ========== STORY-SCREEN ========== */
+        .story-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+            border: 2px solid #0f0;
+            padding: 40px;
+        }
+        
+        .story-title {
+            font-size: 2.5rem;
+            color: #ff0;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px #ff0;
+            font-weight: bold;
+            animation: storyGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes storyGlow {
+            0%, 100% { text-shadow: 0 0 10px #ff0; }
+            50% { text-shadow: 0 0 20px #ff0, 0 0 30px #ff0; }
+        }
+        
+        .story-text {
+            font-size: 1.5rem;
+            line-height: 2;
+            text-align: center;
+            color: #0f0;
+            max-width: 600px;
+            margin-bottom: 40px;
+            white-space: pre-line;
+            font-weight: bold;
+            background-color: rgba(0, 30, 0, 0.5);
+            padding: 30px;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+        }
+        
+        /* ========== CONTROLS-SCREEN ========== */
+        .controls-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 25;
+            border: 2px solid #0f0;
+        }
+        
+        .controls-title {
+            font-size: 2.5rem;
+            color: #ff0;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px #ff0;
+            font-weight: bold;
+        }
+        
+        .controls-content {
+            text-align: left;
+            font-size: 1.3rem;
+            line-height: 2.5;
+            background-color: rgba(0, 30, 0, 0.8);
+            padding: 30px;
+            border: 1px solid #0f0;
+            width: 80%;
+            max-width: 500px;
+        }
+        
+        .controls-content p {
+            margin: 15px 0;
+            border-bottom: 1px solid #0a0;
+            padding-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .key {
+            display: inline-block;
+            background-color: #0f0;
+            color: #000;
+            padding: 5px 15px;
+            margin: 0 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
