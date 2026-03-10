@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Invasion - Von Doruk Nalbantoglu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <!-- Startmenü mit FÜNF Optionen (plus Extra Levels) -->
+        <div class="menu-overlay" id="menuOverlay">
+            <div class="menu-title">ALIEN INVASION</div>
+            <div class="menu-subtitle">Erstellt von Doruk Nalbantoglu</div>
+            <ul class="menu-options" id="menuOptions">
+                <li class="menu-option selected" id="startOption">START GAME</li>
+                <li class="menu-option" id="shopOption">SHOP</li>
+                <li class="menu-option" id="controlsOption">CONTROLS</li>
+                <li class="menu-option" id="storyOption">STORY</li>
+                <li class="menu-option" id="bookOption">ALIEN SACHBUCH</li>
+                <li class="menu-option" id="extraOption" style="display: none;">EXTRA LEVELS</li>
+            </ul>
+            <div class="back-hint">Mit SPACE auswählen</div>
+        </div>
+        
+        <!-- Story -->
+        <div class="story-screen" id="storyScreen">
+            <div class="story-title">DIE GESCHICHTE</div>
+            <div class="story-text">
+                "Die Aliens haben unseren Planeten erobert und alle Menschen sind in großer Gefahr. 
+                
+Du bist unsere einzige Hoffnung. Du wirst die Aliens besiegen und unseren Planeten befreien. 
+
+Wir glauben an dich ;)"
+            </div>
+            <div class="back-hint">Drücke ESC um zurückzukehren</div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls-screen" id="controlsScreen">
+            <div class="controls-title">STEUERUNG</div>
+            <div class="controls-content">
+                <p><span class="key">← →</span> Bewegung</p>
+                <p><span class="key">SPACE</span> Schießen (gedrückt halten für Dauerfeuer)</p>
+                <p><span class="key">R</span> Neustart (nach Game Over)</p>
+                <p><span class="key">ESC</span> Pause / Zurück</p>
+            </div>
+            <div class="back-hint">Drücke ESC um zurückzukehren</div>
+            <div class="creator-credit">Doruk Nalbantoglu</div>
+        </div>
+        
+        <!-- Shop (mit Fresh Reset) -->
+        <div class="shop-screen" id="shopScreen">
+            <div class="shop-title">SHOP</div>
+            <div class="shop-points">Punkte: <span id="shopPoints">0</span></div>
+            
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>⬆️ Schnelleres Schießen</h3>
+                    <p>Reduziert die Schussverzögerung (Stufe <span id="fireRateLevel">0</span>/5)</p>
+                </div>
+                <div class="shop-controls">
+                    <div class="shop-price" id="fireRatePrice">500</div>
+                    <button class="shop-buy-btn" id="buyFireRate">Kaufen</button>
+                </div>
+            </div>
+            
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>❤️ Zusätzliches Leben</h3>
+                    <p>Erhöht die maximalen Leben (Stufe <span id="extraLivesLevel">0</span>/3)</p>
+                </div>
+                <div class="shop-controls">
+                    <div class="shop-price" id="extraLivesPrice">1000</div>
+                    <button class="shop-buy-btn" id="buyExtraLives">Kaufen</button>
+                </div>
+            </div>
+            
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>🛡️ Schutzschild</h3>
+                    <p>Ein Treffer wird absorbiert (einmalig, aktiv)</p>
+                </div>
+                <div class="shop-controls">
+                    <div class="shop-price" id="shieldPrice">2000</div>
+                    <button class="shop-buy-btn" id="buyShield">Kaufen</button>
+                </div>
+            </div>
+            
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>🎨 Schiffsfarbe</h3>
+                    <p>Freigeschaltete Farben: <span id="colorLevel">0</span>/5</p>
+                </div>
+                <div class="shop-controls">
+                    <div class="shop-selector">
+                        <button class="shop-selector-btn" id="prevColor">←</button>
+                        <span class="shop-selector-value" id="currentColorDisplay">1</span>
+                        <button class="shop-selector-btn" id="nextColor">→</button>
+                    </div>
+                    <div class="shop-price" id="colorPrice">300</div>
+                    <button class="shop-buy-btn" id="buyColor">Kaufen</button>
+                </div>
+            </div>
+            
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>🚀 Schiffsmodel</h3>
+                    <p>Freigeschaltete Modelle: <span id="modelLevel">0</span>/3</p>
+                </div>
+                <div class="shop-controls">
+                    <div class="shop-selector">
+                        <button class="shop-selector-btn" id="prevModel">←</button>
+                        <span class="shop-selector-value" id="currentModelDisplay">1</span>
+                        <button class="shop-selector-btn" id="nextModel">→</button>
+                    </div>
+                    <div class="shop-price" id="modelPrice">800</div>
+                    <button class="shop-buy-btn" id="buyModel">Kaufen</button>
+                </div>
+            </div>
+            
+            <!-- Fresh Reset Button -->
+            <div class="shop-entry">
+                <div class="shop-info">
+                    <h3>🔄 Fresh Reset</h3>
+                    <p>Setzt alle Punkte und Upgrades zurück</p>
+                </div>
+                <div class="shop-controls">
+                    <button class="shop-buy-btn" id="freshResetBtn">Reset</button>
+                </div>
+            </div>
+            
+            <div class="back-hint">Drücke ESC um zurückzukehren</div>
+        </div>
+        
+        <!-- Fresh Reset Bestätigungsdialog -->
+        <div class="fresh-reset-dialog" id="freshResetDialog">
+            <div class="fresh-reset-title">ACHTUNG!</div>
+            <div class="fresh-reset-text">Möchtest du wirklich alle Punkte und Upgrades zurücksetzen?<br>Deine Fortschritte gehen verloren.</div>
+            <div class="confirm-options">
+                <div class="confirm-option selected" id="freshResetYes">JA</div>
+                <div class="confirm-option" id="freshResetNo">NEIN</div>
+            </div>
+            <div class="back-hint" style="margin-top: 20px;">Mit ← → wechseln, SPACE auswählen</div>
+        </div>
+        
+        <!-- Alien-Sachbuch (mit UFO, rotem Alien, weißem Alien und Kraken) -->
+        <div class="aliens-book-screen" id="aliensBookScreen">
+            <div class="book-title">ALIEN SACHBUCH</div>
+            <div class="book-entry">
+                <canvas id="bookAlienBlue" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>BLAUER KRAKE</h3>
+                    <p>Treffer: 2 | Punkte: 30<br>Schussrate: niedrig<br>Erscheint in Level 2,3,4</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienPurple" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>LILA KRABBE</h3>
+                    <p>Treffer: 1 | Punkte: 20<br>Schussrate: niedrig<br>Erscheint in allen Leveln</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienYellow" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>GELBER TINTENFISCH</h3>
+                    <p>Treffer: 2 | Punkte: 10<br>Schussrate: doppelt so schnell<br>Erscheint in Level 3,4</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienBoss" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>ENDGEGNER</h3>
+                    <p>Treffer: 60 | Punkte: 2500<br>Schussrate: sehr hoch<br>Nur in Level 5</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienUFO" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>UFO</h3>
+                    <p>Treffer: 1 | Punkte: 100-300<br>Besonderheit: Gibt ein Leben, falls weniger als 3<br>Erscheint zufällig in allen Leveln</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienRed" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>ROTES EINAUGE</h3>
+                    <p>Treffer: 4 | Punkte: 100<br>Schussrate: mittel<br>Nur in Extra Levels (6,7,8)</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienWhite" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>WEISSES DREIAUGE</h3>
+                    <p>Treffer: 5 | Punkte: 150<br>Schussrate: mittel<br>Nur in Extra Level 7</p>
+                </div>
+            </div>
+            <div class="book-entry">
+                <canvas id="bookAlienKraken" class="book-alien-canvas" width="100" height="100"></canvas>
+                <div class="book-info">
+                    <h3>THE KRAKEN</h3>
+                    <p>Treffer: 160 | Punkte: 5000<br>Schussrate: sehr hoch<br>Nur in Extra Level 8</p>
+                </div>
+            </div>
+            <div class="back-hint">Drücke ESC um zurückzukehren</div>
+        </div>
+        
+        <!-- Pause-Menü -->
+        <div class="pause-screen" id="pauseScreen">
+            <div class="pause-title">PAUSE</div>
+            <ul class="pause-options">
+                <li class="pause-option selected" id="resumeOption">RESUME</li>
+                <li class="pause-option" id="mainMenuOption">MAIN MENU</li>
+            </ul>
+            <div class="back-hint">Mit SPACE auswählen | ESC = RESUME</div>
+        </div>
+        
+        <!-- Revive-Bildschirm (bei Game Over) -->
+        <div class="revive-screen" id="reviveScreen">
+            <div class="revive-title">GAME OVER?</div>
+            <div class="revive-text" id="reviveText">Möchtest du für 5000 Punkte ein Leben zurückkaufen?</div>
+            <div class="revive-text" id="revivePointsDisplay">Punkte: <span id="currentPoints">0</span> / 5000</div>
+            <div class="confirm-options">
+                <div class="confirm-option selected" id="reviveYes">JA</div>
+                <div class="confirm-option" id="reviveNo">NEIN</div>
+            </div>
+            <div class="back-hint" style="margin-top: 20px;">Mit ← → wechseln, SPACE auswählen</div>
+        </div>
+        
+        <!-- Bestätigung für Main Menu -->
+        <div class="confirm-dialog" id="confirmDialog">
+            <div class="confirm-text">Wenn du zum Hauptmenü gehst,<br>verlierst du deine Fortschritte im Level.<br>Bist du dir sicher?</div>
+            <div class="confirm-options">
+                <div class="confirm-option selected" id="confirmYes">JA</div>
+                <div class="confirm-option" id="confirmNo">NEIN</div>
+            </div>
+            <div class="back-hint" style="margin-top: 20px;">Mit ← → wechseln, SPACE auswählen</div>
+        </div>
+        
+        <!-- Endboss besiegt Bildschirm (nach Level 5) -->
+        <div class="boss-defeated-screen" id="bossDefeatedScreen">
+            <h2 class="boss-defeated-title">SIEG!</h2>
+            <div class="boss-defeated-text">Du hast den Planeten von den Aliens befreit!<br>Die Extra Levels wurden freigeschaltet.</div>
+            <div class="level-buttons">
+                <button class="level-btn menu-btn" id="bossDefeatedMenuBtn">ZUM HAUPTMENÜ</button>
+            </div>
+        </div>
+        
+        <!-- Level Complete (für Level 1-4 und 6-7) -->
+        <div class="level-complete" id="levelCompleteScreen">
+            <h2>LEVEL GESCHAFFT!</h2>
+            <div class="level-message" id="levelMessage"></div>
+            <div class="level-buttons">
+                <button class="level-btn" id="nextLevelBtn">WEITER</button>
+                <button class="level-btn menu-btn" id="levelMenuBtn">HAUPTMENÜ</button>
+            </div>
+        </div>
+        
+        <!-- Game Won (nur für Level 8) -->
+        <div class="game-won" id="gameWonScreen">
+            <h2>SIEG!</h2>
+            <div class="level-message">Herzlichen Glückwunsch! Du hast THE KRAKEN besiegt und die Extra Levels gemeistert. Vielen Dank fürs Spielen!</div>
+            <div class="level-buttons">
+                <button class="level-btn menu-btn" id="gameWonMenuBtn">ZURÜCK ZUM HAUPTMENÜ</button>
+            </div>
+        </div>
+        
+        <!-- Game Over -->
+        <div class="game-over" id="gameOverScreen">
+            <h2>GAME OVER</h2>
+            <p id="finalScore">Punkte: 0</p>
+            <p>Die Aliens haben die Erde erobert!</p>
+            <button id="restartButton">Neustart (R)</button>
+            <button id="menuButton">Menü (ESC)</button>
+        </div>
+    </div>
+    
+    <!-- Spielinfo (während des Spiels) - jetzt oben -->
+    <div class="game-info" id="gameInfo" style="display: none;">
+        <div class="score">Punkte: <span id="score">0</span></div>
+        <div class="level">Level: <span id="level">1</span></div>
+        <div class="lives" id="livesContainer">
+            <span>Leben: </span>
+            <span id="livesCount">3</span>
+            <div id="lifeIconsContainer" style="display: inline-flex; gap: 5px; margin-left: 5px;"></div>
+            <div class="shield-icon" id="shieldIcon" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="js/sound.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/player-data.js"></script>
+    <script src="js/aliens.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/book.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
